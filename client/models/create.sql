@@ -18,12 +18,16 @@ CREATE TABLE information (
 
 ALTER TABLE information CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+--start
+-- truy cập: https://www.phpmyadmin.co/db_sql.php?db=sql12778065
+
+delete from `superadmin`
+delete from `information`
+
 INSERT INTO superadmin (username, email, role, password) VALUES
-('admin1', 'admin1@example.com', 'superadmin', 'e10adc3949ba59abbe56e057f20f883e'),
-('admin2', 'admin2@example.com', 'superadmin', 'e10adc3949ba59abbe56e057f20f883e'),
-('admin3', 'root@example.com', 'admin', 'e10adc3949ba59abbe56e057f20f883e');
+('superadmin1', '23410165@ms.uit.edu.com', 'superadmin', 'e10adc3949ba59abbe56e057f20f883e'),
+('superadmin2', '23410154@ms.uit.edu.com', 'superadmin', 'e10adc3949ba59abbe56e057f20f883e');
 
 INSERT INTO information (username, hoten, gioitinh, ngsinh) VALUES
-('admin1', 'Cao Thanh Lâm', 'M', '1991-10-01 00:00:00'),
-('admin2', 'Cao Trung Hiếu', 'M', '1995-05-20 00:00:00'),
-('admin3', 'Lê Văn C', 'M', '1996-12-15 00:00:00');
+('superadmin1', 'Cao Thanh Lâm', 'M', '1991-10-01 00:00:00'),
+('superadmin2', 'Cao Trung Hiếu', 'M', '1995-05-20 00:00:00');
