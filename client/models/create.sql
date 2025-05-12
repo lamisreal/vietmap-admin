@@ -16,6 +16,16 @@ CREATE TABLE information (
     ngsinh DATETIME NOT NULL
 );
 
+CREATE TABLE login_sessions (
+    id INT NOT NULL,
+    username VARCHAR(16) NOT NULL,
+    device_uuid CHAR(36) NOT NULL,
+    created_at DATETIME,
+    expired_at DATETIME,
+    is_active BOOLEAN DEFAULT TRUE,
+    PRIMARY KEY (id, username, device_uuid)
+);
+
 ALTER TABLE information CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 --start
@@ -23,6 +33,7 @@ ALTER TABLE information CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode
 
 delete from `superadmin`
 delete from `information`
+delete from `login_sessions`
 
 INSERT INTO superadmin (username, email, role, password) VALUES
 ('superadmin1', '23410165@ms.uit.edu.com', 'superadmin', 'e10adc3949ba59abbe56e057f20f883e'),
