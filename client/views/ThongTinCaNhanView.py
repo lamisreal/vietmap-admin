@@ -31,7 +31,7 @@ class ThongTinCaNhanView:
     def initView(self):
         root = self._root
 
-        root.title("Thông tin admin")
+        root.title("Thông tin superadmin")
         self.top_frame = Frame(root, padx=10, pady=10)
         self.top_frame.pack(padx=10, pady=10, fill="both", expand=True)
 
@@ -47,7 +47,7 @@ class ThongTinCaNhanView:
     def header(self):
         """Tạo các ô nhập liệu."""
         # Tiêu đề
-        self.labelTitle = Label(self.top_frame, text="Thông tin người dùng", font=("Arial", 20, "bold"))
+        self.labelTitle = Label(self.top_frame, text="Thông tin superadmin", font=("Arial", 20, "bold"))
         self.labelTitle.grid(row=0, column=0, columnspan=2, pady=10)
 
         # Tên đăng nhập
