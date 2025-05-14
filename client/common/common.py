@@ -1,4 +1,5 @@
 from tkinter import *
+import uuid
 
 class Common:
     def center_window(self, root: Tk, width=800, height=600):
@@ -16,3 +17,35 @@ class Common:
 
         # Đặt vị trí cửa sổ
         root.geometry(f'{window_width}x{window_height}+{position_left}+{position_top}')
+        
+    def get_device_id(self):
+        import platform
+        import uuid
+        import subprocess
+
+        system = platform.system()
+
+        if system == "Windows":
+            try:
+                result = subprocess.check_output('wmic csproduct get uuid', shell=True)
+                return result.decode().split('\n')[1].strip()
+            except:
+                return str(uuid.getnode())
+        
+        elif system == "Linux":
+            try:
+                with open('/etc/machine-id', 'r') as f:
+                    return f.read().strip()
+            except:
+                return str(uuid.getnode())
+        
+        elif system == "Darwin":  # macOS
+            try:
+                result = subprocess.check_output(['ioreg', '-rd1', '-c', 'IOPlatformExpertDevice'])
+                for line in result.decode().split('\n'):
+                    if "IOPlatformUUID" in line:
+                        return line.split('=')[-1].strip().strip('"')
+            except:
+                return str(uuid.getnode())
+        
+        return str(uuid.getnode())

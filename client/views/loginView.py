@@ -25,7 +25,7 @@ class LoginView:
     
     def initView(self):
         root = self.tkRoot
-        username = "admin1"
+        username = "superadmin1"
         password = "123456"
 
         root.title("Đăng nhập")
@@ -72,13 +72,13 @@ class LoginView:
         if not userName or not password:
             messagebox.showerror("Cảnh báo", "Hãy điền đầy đủ Tên đăng nhập và Mật khẩu!")
         else:
-            user = SuperAdminModel.getInstance().login(userName, password)
-            if (user):
-                # messagebox.showinfo("Thành công", f"Đăng nhập thành công, xin chào \"{user[0]["USERNAME"]}\"")
+            superadmin = SuperAdminModel.getInstance().login(userName, password)
+            if (superadmin):
+                # messagebox.showinfo("Thành công", f"Đăng nhập thành công, xin chào \"{superadmin[0]["USERNAME"]}\"")
                 self.tkRoot.destroy()
                 root = Tk()
                 m = SuperAdminModel()
-                v = SuperAdminView(root, user)
+                v = SuperAdminView(root, superadmin)
                 c = SuperAdminController(m, v)
                 c.initCommandButtonDangXuat(self.back)
                 c.initItemView()

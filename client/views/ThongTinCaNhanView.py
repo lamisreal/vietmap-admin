@@ -16,17 +16,17 @@ class ThongTinCaNhanView:
         
         return ThongTinCaNhanView._instance
 
-    def __init__(self, root: Tk, super_admin):
+    def __init__(self, root: Tk, username):
         self._root = root
-        self._super_admin = super_admin
+        self._username = username
         self._common = Common()
-        self._common.center_window(root, 500, 500)
+        self._common.center_window(root, 500, 300)
         self.initView()
     
     
     @property
-    def super_admin_param(self):
-        return self._super_admin
+    def username_param(self):
+        return self._username
     
     def initView(self):
         root = self._root
@@ -95,18 +95,18 @@ class ThongTinCaNhanView:
     def get_input_values(self):
         """Lấy dữ liệu từ các ô nhập liệu."""
         return {
-            "USERNAME": self.get_user_name(),
-            "HOTEN": self.get_ho_ten(),
-            "GIOITINH": self.get_gioi_tinh(),
-            "NGSINH": self.get_ngay_sinh(),
+            "username": self.get_user_name(),
+            "hoten": self.get_ho_ten(),
+            "gioitinh": self.get_gioi_tinh(),
+            "ngsinh": self.get_ngay_sinh(),
         }
 
     def set_input_values(self, item):
         """Lấy dữ liệu từ DB vào các ô nhập liệu."""
-        self.set_user_name(str(item["USERNAME"]))
-        self.set_ho_ten(str(item["HOTEN"]))
-        self.set_gioi_tinh(str(item["GIOITINH"]))
-        self.set_ngay_sinh(str(item["NGSINH"]))
+        self.set_user_name(str(item["username"]))
+        self.set_ho_ten(str(item["hoten"]))
+        self.set_gioi_tinh(str(item["gioitinh"]))
+        self.set_ngay_sinh(str(item["ngsinh"]))
         
     def get_user_name(self):
         return self.entry_user_name_text.get()
@@ -123,7 +123,7 @@ class ThongTinCaNhanView:
         return result
     
     def get_ngay_sinh(self):
-        return self.ngay_sinh.get_date()
+        return self.ngay_sinh.get_date().strftime("%Y-%m-%d")
 
     #set
     def set_user_name(self, value):
@@ -139,7 +139,7 @@ class ThongTinCaNhanView:
             self.gioi_tinh_var.set("Nữ")
 
     def set_ngay_sinh(self, ngay_sinh):
-        self.ngay_sinh.set_date(datetime.strptime(ngay_sinh, "%Y-%m-%d %H:%M:%S").date())
+        self.ngay_sinh.set_date(datetime.strptime(ngay_sinh, '%a, %d %b %Y %H:%M:%S GMT').date())
 
     def clear_inputs(self):
         """Xóa nội dung các ô nhập liệu."""

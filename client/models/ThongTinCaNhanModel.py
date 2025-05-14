@@ -1,4 +1,5 @@
 from models.connectDB import ConnectDB
+import requests
 
 class ThongTinCaNhan:
     def __init__(self, USERNAME, HOTEN, GIOITINH, NGSINH):
@@ -19,58 +20,43 @@ class ThongTinCaNhanModel(ConnectDB):
         return ThongTinCaNhanModel._instance
     
     def __init__(self):
+        self._url_superadmin = "http://127.0.0.1:5000/api/superadmin/"
+        self._url_information = "http://127.0.0.1:5000/api/information/"
         super().__init__()
     
-    def convert_obj(self, row):
-        data_convert = {
-                        "USERNAME": row[1],
-                        "HOTEN": row[2],
-                        "GIOITINH": row[3],
-                        "NGSINH": row[4]
-                        }
-        return data_convert
-        
-    def convert(self, data):
-        return [self.convert_obj(row) for row in data]
-    
-    def load_item(self, item):
-        """Trả về danh sách dữ liệu."""
-        db = self.connect()
-        cursor = db.cursor()
-        query = "SELECT * FROM {0} WHERE USERNAME = %s".format(self.NAME_TABLE_INFORMATION)
-        cursor.execute(query, (item[0]["USERNAME"]))
-        data = cursor.fetchone()
-        self.close()
-        
-        return self.convert_obj(data)
-    
-    def check_same(self, item, item_old): 
-    # Chuyển đổi các giá trị về cùng một kiểu (sang chuỗi) trước khi so sánh
-        if (str(item["USERNAME"]) != str(item_old["USERNAME"]) or
-            str(item["HOTEN"]) != str(item_old["HOTEN"]) or
-            str(item["GIOITINH"]) != str(item_old["GIOITINH"]) or
-            str(item["NGSINH"]) != str(item_old["NGSINH"])):
-            return False
-        return True
+    def get_information_by_username(self, username: str):
+        params = {
+            "username": username
+        }
+        url = self._url_superadmin + "/get_admin_by_username"
+
+        try:
+            response = requests.get(url, params)
+            if response.status_code == 200:
+                data = response.json()
+                superadmin_info = data["data"]
+                return superadmin_info
+            else:
+                print(f"Lỗi: {response.status_code}")
+                return None
+        except requests.exceptions.RequestException as e:
+            print(f"Lỗi kết nối API: {e}")
+            return None
     
     def update_item(self, item):
-        """Thêm dữ liệu mới vào CSDL."""
-        db = self.connect()
-        cursor = db.cursor()
-        try:
-            query = """
-                    UPDATE {0}
-                    SET HOTEN = %s, GIOITINH = %s, NGSINH = %s
-                    WHERE USERNAME = %s
-                    """.format(self.NAME_TABLE_INFORMATION)
+        payload = item
+        url = self._url_information + "/update"
 
-            cursor.execute(query, (item["HOTEN"], item["GIOITINH"], item["NGSINH"], item["USERNAME"]))
-            db.commit()
-            
-            return "UPDATED"
-        except Exception as e:
-            db.rollback()
-            print(f"Lỗi khi cập nhật dữ liệu: {e}")
-            return "ERROR"
-        finally:
-            self.close()
+        try:
+            response = requests.post(url, json=payload)
+            if response.status_code == 200:
+                data = response.json()
+                # xử lý hoặc chuyển đổi dữ liệu nếu cần
+                return data
+            else:
+                print(f"Lỗi: {response.status_code}")
+                return None
+        except requests.exceptions.RequestException as e:
+            print(f"Lỗi kết nối API: {e}")
+            return None
+        

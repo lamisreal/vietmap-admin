@@ -1,5 +1,7 @@
+from common.common import Common
 from models.connectDB import ConnectDB
-import hashlib
+import requests
+import uuid
 
 class SuperAdmin:
     def __init__(self):
@@ -20,39 +22,36 @@ class SuperAdminModel(ConnectDB):
         return SuperAdminModel._instance
 
     def __init__(self):
+        self._common = Common()
+        self._url = "http://127.0.0.1:5000/api/superadmin/"
+        self._common = Common()
+        self._device_id = self._common.get_device_id()
+        self._device_uuid = uuid.uuid5(uuid.NAMESPACE_DNS, self._device_id)
+        
         super().__init__()
         
     def convertData(self, data):
-        return [{"ID": row[0],
-                 "USERNAME": row[1],
-                 "EMAIL": row[2],
-                 "ROLE": row[3],
-                 "PASSWORD": row[4]
-                 } for row in data]
+        return 0
 
-    def login(self, USERNAME: str, password: str):
-        db = self.connect()
-        cursor = db.cursor()
-        hashed_password = hashlib.md5(password.encode()).hexdigest()
-        query = "SELECT * FROM {0} WHERE USERNAME = %s AND ROLE = %s AND PASSWORD = %s".format(self.NAME_TABLE_SUPERADMIN)
-        cursor.execute(query, (USERNAME, self.ROLE_SUPERADMIN, hashed_password))
-        data = cursor.fetchall()
-        self.close()
-        return self.convertData(data)
-    
-    def get_data_by_id(self, USERNAME: str):
-        db = self.connect()
-        cursor = db.cursor()
-        query = "SELECT * FROM {0} WHERE USERNAME = %s".format(self.NAME_TABLE_SUPERADMIN)
-        cursor.execute(query, (USERNAME))
-        data = cursor.fetchall()
-        self.close()
-        return self.convertData(data)
-    
-    def update(self, query):
-        db = self.connect()
-        cursor = db.cursor()
-        cursor.execute(query)
-        res = cursor.fetchall()
-        print(res)
-        self.close()
+    def login(self, username: str, password: str):
+        params = {
+            "username": username,
+            "password": password,
+            "device_uuid": self._device_uuid  # bạn có thể truyền tham số này từ nơi khác nếu cần
+        }
+        url = self._url
+
+        try:
+            response = requests.get(url, params)
+            if response.status_code == 200:
+                data = response.json()
+                superadmin = data["data"]
+
+                # xử lý hoặc chuyển đổi dữ liệu nếu cần
+                return superadmin
+            else:
+                print(f"Lỗi: {response.status_code}")
+                return None
+        except requests.exceptions.RequestException as e:
+            print(f"Lỗi kết nối API: {e}")
+            return None

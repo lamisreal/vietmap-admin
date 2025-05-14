@@ -17,7 +17,7 @@ CREATE TABLE information (
 );
 
 CREATE TABLE login_sessions (
-    id INT NOT NULL,
+    id INT AUTO_INCREMENT,
     username VARCHAR(16) NOT NULL,
     device_uuid CHAR(36) NOT NULL,
     created_at DATETIME,

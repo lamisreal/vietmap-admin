@@ -38,10 +38,10 @@ class SuperAdminController:
 
     def goToProfileScreen(self):
         self._view.tkRoot.destroy()
-        data = self._model.get_data_by_id(self._view._super_admin[0]["USERNAME"])
+        username = self._view._super_admin["username"]
         root = Tk()
         m = ThongTinCaNhanModel()
-        v = ThongTinCaNhanView(root, data)
+        v = ThongTinCaNhanView(root, username)
         c = ThongTinCaNhanController(m, v)
         c.initCommandButtonBack(self.back)
     

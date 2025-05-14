@@ -32,7 +32,7 @@ class SuperAdminView:
         self.top_frame.pack(padx=10, pady=10, fill="both", expand=True)
 
         # Header
-        self.labelTitle = Label(self.top_frame, text="Xin chào tài khoản {0}".format(self._super_admin[0]["USERNAME"]), font=("Arial", 20, "bold"))
+        self.labelTitle = Label(self.top_frame, text="Xin chào tài khoản {0}".format(self._super_admin["username"]), font=("Arial", 20, "bold"))
         self.labelTitle.grid(row=0, column=0, columnspan=2, pady=10)
         
         # Tạo button_frame

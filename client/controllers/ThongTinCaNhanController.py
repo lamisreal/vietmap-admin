@@ -26,7 +26,7 @@ class ThongTinCaNhanController:
             
     def load_data(self):
         """Hiển thị danh sách"""
-        data = self._model.load_item(self._view.super_admin_param)
+        data = self._model.get_information_by_username(self._view.username_param)
         self._view.set_input_values(data)
         self._view.buttonRefresh.config(state="normal")
         self._view.buttonEdit.config(state="disabled")
@@ -46,12 +46,10 @@ class ThongTinCaNhanController:
     def update_item(self):
         """Chỉnh sửa dữ liệu"""
         item = self._view.get_input_values()
-        status = self._model.update_item(item)
-        if status == "UPDATED":
+        data = self._model.update_item(item)
+        if data["status"] == 200:
             messagebox.showinfo("Thông báo", "Cập nhật thành công")
             self._view.clear_inputs()
-        elif status == "NONE":
-            messagebox.showinfo("Thông báo", "Dữ liệu không bị thay đổi, không cần cập nhật")
         else:
             messagebox.showerror("Thông báo", "Lỗi thao tác")
         self.load_data()
