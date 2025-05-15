@@ -1,5 +1,6 @@
 from tkinter import *
 import uuid
+from datetime import datetime
 
 class Common:
     def center_window(self, root: Tk, width=800, height=600):
@@ -49,3 +50,25 @@ class Common:
                 return str(uuid.getnode())
         
         return str(uuid.getnode())
+    
+    def format_date(self, date_input):
+        date_str = date_input
+        date_obj = datetime.strptime(date_str, "%a, %d %b %Y %H:%M:%S GMT")
+        formatted_date = date_obj.strftime("%d/%m/%Y")
+        return formatted_date
+    
+    def get_sex(self, sex_code_input):
+        result = ""
+        if sex_code_input == "M":
+            result = "Nam"
+        elif sex_code_input == "F":
+            result = "Nữ"
+        return result
+    
+    def get_sex_code(self, sex_input):
+        result = ""
+        if sex_input == "Nam":
+            result = "M"
+        elif sex_input == "Nữ":
+            result = "F"
+        return result

@@ -74,11 +74,11 @@ class LoginView:
         else:
             superadmin = SuperAdminModel.getInstance().login(userName, password)
             if (superadmin):
-                # messagebox.showinfo("Thành công", f"Đăng nhập thành công, xin chào \"{superadmin[0]["USERNAME"]}\"")
+                # messagebox.showinfo("Thành công", f"Đăng nhập thành công, xin chào \"{superadmin["username"]}\"")
                 self.tkRoot.destroy()
                 root = Tk()
                 m = SuperAdminModel()
-                v = SuperAdminView(root, superadmin)
+                v = SuperAdminView(root, superadmin, password)
                 c = SuperAdminController(m, v)
                 c.initCommandButtonDangXuat(self.back)
                 c.initItemView()

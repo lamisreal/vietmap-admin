@@ -7,6 +7,10 @@ from controllers.ThongTinCaNhanController import ThongTinCaNhanController
 from models.ThongTinCaNhanModel import ThongTinCaNhanModel
 from views.ThongTinCaNhanView import ThongTinCaNhanView
 
+from controllers.DanhSachTaiKhoanController import DanhSachTaiKhoanController
+from models.DanhSachTaiKhoanModel import DanhSachTaiKhoanModel
+from views.DanhSachTaiKhoanView import DanhSachTaiKhoanView
+
 
 class SuperAdminController:
     _instance = None
@@ -24,6 +28,8 @@ class SuperAdminController:
         
     def initItemView(self):
         self._view.btnProfile["command"] = self.goToProfileScreen
+        self._view.btnDanhsachtk["command"] = self.goToDanhSachTaiKhoan
+        
         if self.commandBack:
             def _back():
                 self._view.tkRoot.destroy()
@@ -43,6 +49,16 @@ class SuperAdminController:
         m = ThongTinCaNhanModel()
         v = ThongTinCaNhanView(root, username)
         c = ThongTinCaNhanController(m, v)
+        c.initCommandButtonBack(self.back)
+
+    def goToDanhSachTaiKhoan(self):
+        self._view.tkRoot.destroy()
+        username = self._view._super_admin["username"]
+        password = self._view._password
+        root = Tk()
+        m = DanhSachTaiKhoanModel(username)
+        v = DanhSachTaiKhoanView(root, username, password)
+        c = DanhSachTaiKhoanController(m, v)
         c.initCommandButtonBack(self.back)
     
     def back(self):

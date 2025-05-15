@@ -12,10 +12,11 @@ class SuperAdminView:
         SuperAdminView._instance = SuperAdminView()
         return SuperAdminView._instance
 
-    def __init__(self, root: Tk, super_admin):
+    def __init__(self, root: Tk, super_admin, password):
         self.tkRoot = root
         self._common = Common()
         self._super_admin = super_admin
+        self._password = password
         self._common.center_window(self.tkRoot, 610, 300)
         self.initView()
 
@@ -45,6 +46,10 @@ class SuperAdminView:
 
         self.btnDangXuat = Button(self.button_frame, text="Đăng xuất", font=("Arial", 10), width=20, relief="raised", bd=2)
         self.btnDangXuat.grid(row=0, column=1, padx=10, pady=5)
+        
+        # Hàng 2: "Danh sách tài khoản"
+        self.btnDanhsachtk = Button(self.button_frame, text="Danh sách tài khoản", font=("Arial", 10), width=20, relief="raised", bd=2)
+        self.btnDanhsachtk.grid(row=1, column=0, padx=10, pady=5)
 
     def showView(self):
         self.tkRoot.mainloop()

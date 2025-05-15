@@ -16,7 +16,7 @@ class ThongTinCaNhanView:
         
         return ThongTinCaNhanView._instance
 
-    def __init__(self, root: Tk, username):
+    def __init__(self, root: Tk, username: str):
         self._root = root
         self._username = username
         self._common = Common()
